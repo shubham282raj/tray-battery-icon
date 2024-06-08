@@ -1,5 +1,10 @@
 from PIL import Image, ImageDraw, ImageFont
 
+def get_icon_title(battery):
+    hh, mm = divmod(divmod(battery.secsleft, 60)[0], 60)
+    return f"Time left {hh}h {mm}min" if not battery.power_plugged else "Charging"
+
+
 def get_max_font_size(text, max_width, max_height):
     size = 1
     font = ImageFont.load_default(size)
