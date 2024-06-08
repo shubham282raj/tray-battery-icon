@@ -17,5 +17,6 @@ def update_icon(icon):
         if not (last_percentage == battery.percent and last_power == battery.power_plugged):
             color = get_battery_color(battery)
             icon.icon = create_tray_icon(battery.percent, color)
+            icon.title = f"Time left: {battery.secsleft/3600:.2f}" if not battery.power_plugged else "Charging"
             last_percentage, last_power = battery.percent, battery.power_plugged
         time.sleep(1)
