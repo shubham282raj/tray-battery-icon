@@ -15,7 +15,7 @@ def get_max_font_size(text, max_width, max_height):
         
     return size - 1
 
-def create_tray_icon(number):
+def create_tray_icon(number, color):
     width = 32
     height = 32
     text = str(number)
@@ -26,6 +26,6 @@ def create_tray_icon(number):
 
     max_font_size = get_max_font_size(text, width, height)
 
-    draw.text((0,0), text, font=ImageFont.load_default(size=max_font_size), fill='white')
+    draw.text((0,0), text, font=ImageFont.load_default(size=max_font_size), fill=color)
 
     return image

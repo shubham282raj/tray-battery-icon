@@ -2,18 +2,20 @@ import psutil
 import time
 from utils.tray_icon import create_tray_icon
 
-def get_battery_percentage():
-    battery = psutil.sensors_battery()
-    return battery.percent
+def get_battery_color(battery):
+    if battery.power_plugged:
+        return 'green'
+    elif battery.percent > 20:
+        return 'white'
+    else:
+        return 'red'
 
 def update_icon(icon):
-    last_battery_percentage = get_battery_percentage()
-    icon.icon = create_tray_icon(last_battery_percentage)
+    last_percentage, last_power = -1, -1
     while True:
-        battery_percentage = get_battery_percentage()
-        if last_battery_percentage != battery_percentage:
-          icon.icon = create_tray_icon(battery_percentage)
-          last_battery_percentage = battery_percentage
-          time.sleep(30)
-        else:
-          time.sleep(10)
+        battery = psutil.sensors_battery()
+        if not (last_percentage == battery.percent and last_power == battery.power_plugged):
+            color = get_battery_color(battery)
+            icon.icon = create_tray_icon(battery.percent, color)
+            last_percentage, last_power = battery.percent, battery.power_plugged
+        time.sleep(1)
